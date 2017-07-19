@@ -7,17 +7,17 @@ category: javascript
 
 Si vienes de un lenguaje de programación como Java, C o PHP, Javascript podría parecer que no tiene sentido. En especial cuando del scope se trata, pues Javascript tiene algunas reglas que los demás lenguajes no. Podrías evitar aprenderlas y seguir usando el lenguaje a ciegas, pero tarde o temprano estas características vendrán a perseguirte. Por eso, he aquí una breve introducción a cómo usar el scope en Javascript.
 
-#### ¿Qué es scope?
-El _ámbito_ - o _scope_, en inglés - es la zona en el código en donde una variable o el identificador de una función (o sea, su nombre) puede ser usada. Fuera de esta zona la variable es inaccesible, como si nunca hubiera existido. El nombre técnico para esto es _visibilidad_, una variable es visible si podemos usarla para leerla o guardar valores en ella.
+### ¿Qué es scope?
+El _ámbito_ -o _scope_, en inglés- es la zona en el código en donde una variable o el identificador de una función (o sea, su nombre) puede ser usada. Fuera de esta zona la variable es inaccesible, como si nunca hubiera existido. El nombre técnico para esto es _visibilidad_, una variable es visible si podemos usarla para leerla o guardar valores en ella.
 
-#### Pero, ¿para qué sirve?
+### Pero, ¿para qué sirve?
 Sin duda sería más fácil que todas las variables estuvieran disponibles en todas partes del código. Eso nos evitaría el trabajo de verificar si la variable existe o no en cierto ámbito, (recuerdo la mala costumbre que tenía de hacer globales a todas las variables cuando recién iniciaba a programar en C). 
 
 Pero el ámbito de las variables tiene su razón de ser. Si todas las variables fueran visibles en todos lados, ¿qué impediría a una función modificar por accidente variables que no se suponía debía tocar?,  ¿qué sucedería si declarara una variable con un nombre que ya fue previamente usado, por ejemplo al usar una librería externa cuyo código desconocemos?. Estos son los problemas que intenta solucionar el ámbito.
 
-#### Scope global vs scope local
+### Scope global vs scope local
 En Javascrip, y en la mayoría de lenguajes de programación populares, existen dos tipos de ámbito, el _global_ y el _local_. 
-Al iniciar un programa de Javascript, ya nos encontramos en el _ámbito global_. Y todas las variables (también aplica para la definición de las funciones) que sean declaradas aquí pertenecen al _ámbito global_ - o lo que es lo mismo, son _variables globales_.
+Al iniciar un programa de Javascript, ya nos encontramos en el _ámbito global_. Y todas las variables (también aplica para la definición de las funciones) que sean declaradas aquí pertenecen al _ámbito global_ -o lo que es lo mismo, son _variables globales_.
 
 ```javascript
 // scope global
@@ -53,10 +53,10 @@ if(res > 10) {
 console.log(mensaje);
 ```
 
-> Las variables _mensaje_ y _res_, así como el identificador _suma_ se encuentran en el _ámbito global_ porque no están contenidos dentro de una función. Por otro lado, la definición de las variables _a_ y _b_ forman parte de la función _suma_ por lo que pertenecen a su _ámbito local_
+> Las variables `mensaje` y `res`, así como el identificador `suma` se encuentran en el _ámbito global_ porque no están contenidos dentro de una función. Por otro lado, la definición de las variables `a` y `b` forman parte de la función `suma` por lo que pertenecen a su _ámbito local_
 
-#### Block scope
-A diferencia de otros lenguajes, **en Javascript el ámbito está basado en funciones**. Cada función crea un ámbito separado para ella, pero los demás tipos de bloques (_if_, _for_, _switch_, bloques explícitos usando _{}_, etc.) no generan un nuevo ámbito. 
+### Block scope
+A diferencia de otros lenguajes, **en Javascript el ámbito está basado en funciones**. Cada función crea un ámbito separado para ella, pero los demás tipos de bloques (`if`, `for`, `switch`, bloques explícitos usando `{}`, etc.) no generan un nuevo ámbito. 
 
 ```javascript
 // scope global
@@ -76,10 +76,10 @@ for (var i = 0; i < 5; i++) {
 console.log(i) // 5
 ```
 
-> Las variables _a_, _b_ y _c_ pertenecen al _ámbito local_ de la función _foo_. _C_ puede ser incluso accedida fuera del bloque _if_ porque los bloques _if_ no generan un ámbito distinto.
-> La variable _i_ también puede ser accedida fuera del ciclo _for_, ya que tampoco crean un nuevo ámbito.
+> Las variables `a`, `b` y `c` pertenecen al _ámbito local_ de la función `foo`. `c` puede ser incluso accedida fuera del bloque `if` porque los bloques `if` no generan un ámbito distinto.
+> La variable `i` también puede ser accedida fuera del ciclo `for`, ya que tampoco crean un nuevo ámbito.
 
-#### En el scope hay niveles
+### En el scope hay niveles
 
 También puede ocurrir que una función contenga en su interior la declaración de otra función. En este caso habrá dos ámbitos distintos, el que corresponde a la función exterior y el de la función anidada. **Las variables creadas dentro de cada función son independientes entre sí**.
 
@@ -117,11 +117,11 @@ function exterior() { // scope 1
 exterior(); // 'Hola a todos'
 ```
 
-> Al ejecutar la función _interior_, el intérprete busca dónde fueron definidas _foo_ y _bar_, iniciando desde la función más interna hasta la más externa. Foo se encuentra en el _scope 2_ ('Hola'), no hay necesidad de seguir buscando. _bar_ no se encuentra en el scope 2, subimos un nivel, encontramos una declaración _bar = 'a todos'_ y esa usamos. La declaración global _bar = 'a nadie'_ nunca fue usada.
+> Al ejecutar la función `interior`, el intérprete busca dónde fueron definidas `foo` y `bar`, iniciando desde la función más interna hasta la más externa. `foo` se encuentra en el _scope 2_ (`'Hola'`); no hay necesidad de seguir buscando. `bar` no se encuentra en el _scope 2_, subimos un nivel; encontramos una declaración `bar = 'a todos'` y esa usamos. La declaración global `bar = 'a nadie'` nunca fue usada.
 
-#### Variables sin declaración
+### Variables sin declaración
 
-Una peculiaridad de Javascript es que, si intentamos asignar un valor a una variable que no ha sido definida dos cosas pueden suceder: si el programa en Javascript se ejecutó utilizando el modo _“use strict”_, un _ReferenceError_ será arrojado, indicando que la variable no ha sido definida. Pero si el programa no está en modo estricto, se creará automáticamente una variable global y en ella será asignado el valor.
+Una peculiaridad de Javascript es que, si intentamos asignar un valor a una variable que no ha sido definida dos cosas pueden suceder: si el programa en Javascript se ejecutó utilizando el modo `'use strict'`, un `ReferenceError` será arrojado, indicando que la variable no ha sido definida. Pero si el programa no está en modo estricto, se creará automáticamente una variable global y en ella será asignado el valor.
 
 ```javascript
 function foo() {
@@ -145,4 +145,4 @@ foo(); // Uncaught ReferenceError: mensaje is not defined
 console.log(mensaje)
 ```
 
-> Siempre es mejor agregar 'use strict' para generar mensajes de error y evitar errores indeseados.
+> Siempre es mejor agregar `'use strict'` para generar mensajes de error y evitar errores indeseados.
