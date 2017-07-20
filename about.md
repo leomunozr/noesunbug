@@ -7,7 +7,7 @@ permalink: /acerca/
 <div class="about-me">
   <img class="me" src="{{ site.baseurl }}/images/yo.jpg" />
 
-  Soy un maker entusiasta. Me gusta resolver problemas a través del código. Actualmente trabajo como desarrollador enfocado a web, pero también disfruto haciendo otros proyectillos de hardware. Siempre aprendiendo trucos nuevos.
+  ¡Hola! Mi nombre es Leonardo Muñoz. Soy un maker entusiasta. Me gusta resolver problemas a través del código. Actualmente trabajo como desarrollador enfocado a web, pero también disfruto haciendo otros proyectillos de hardware. Siempre aprendiendo trucos nuevos.
 
 </div> 
 
