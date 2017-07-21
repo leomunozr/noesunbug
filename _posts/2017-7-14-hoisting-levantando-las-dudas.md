@@ -35,12 +35,12 @@ El código anterior sería entonces equivalente a:
 ```javascript
 var x; // efecto del hoisting
 x = 10;
-console.log('x = ' + x);
+console.log('x = ' + x); // x = 10
 ```
 
 ## Declaraciones vs. asignaciones
 
-Volvamos a tomar una suposición más educada sobre el siguiente código:
+Volvamos a tomar una suposición más educada sobre el resultado del siguiente código:
 
 ```javascript
 console.log('x = ' + x);
@@ -57,9 +57,9 @@ var x;
 x = 10;
 ```
 
-La última línea se dividió en dos: en una línea está la declaración y en otra la asignación de la variable.  
+La sentencia `var x = 10` en realidad corresponde a dos acciones: una declaración de variable y su correspondiente asignación de un valor.  
 
-Ya divididas las instrucciones es más fácil ver por qué el valor es `undefined` al imprimirlo. Las declaraciones de variables (y funciones) son atendidas durante el tiempo de compilación, mientras que las asignaciones lo son durante el tiempo de interpretación. Y debido a eso es que **sólo las declaraciones sufren de _hoisting_, las asignaciones no**.
+Ya divididas las instrucciones en dos líneas es más fácil ver por qué el valor es `undefined` al imprimirlo. Las declaraciones de variables (y funciones) son atendidas durante el tiempo de compilación, mientras que las asignaciones lo son durante el tiempo de interpretación. Y debido a eso es que **sólo las declaraciones sufren de _hoisting_, las asignaciones no**.
 
 Clarificado eso, el código equivalente, después del efecto de hoisting será:
 
@@ -83,7 +83,15 @@ foo() {
 }
 ```
 
-De modo que podemos invocar una función incluso antes de que haya sido declarada. Aquí la declaración `foo` será _"subida"_ al inicio del _scope_, haciendo legal este código.
+De modo que podemos invocar una función incluso antes de que haya sido declarada. Aquí la declaración `foo` (con todo y el cuerpo de la función) será _"subida"_ al inicio del _scope_, haciendo legal este código.
+
+```javascript
+foo() { // La declaración sube por efecto del hoisting
+  console.log('hola');
+}
+
+foo(); // hola
+```
 
 ### ReferenceError o TypeError
 
@@ -114,7 +122,7 @@ persona.nombre = 'Juanito'; // TypeError: No se puede asignar la propiedad 'nomb
 // El error cambió de un ReferenceError a un TypeError
 // porque la variable persona sí existe esta vez,
 // pero guarda un valor undefined
-// y no posee propiedades
+// que no posee propiedades
 
 var vacio = null;
 vacio.x = 1; // TypeError: No se puede asignar la propiedad 'x' de null.
@@ -126,7 +134,7 @@ Si se intenta invocar una función que no ha sido definida, el intérprete arroj
 ### Declaraciones vs. expresiones
 
 Hagamos otro paréntesis para explicar algunas diferencias al definir funciones.  
-Una función puede ser definida mediante la palabra reservada `function`, el nombre de la función (usualmente pero puede ser omitido en ciertas ocasiones) y el cuerpo de ésta:
+Una función puede ser definida mediante la palabra reservada `function`, el nombre de la función (usualmente, pero puede ser omitido en ciertas ocasiones), y el cuerpo de ésta:
 
 ```javascript
 function foo() {
@@ -144,32 +152,35 @@ Pero debido a que en Javascript todo (bueno, casi todo) es un objeto, incluyendo
 ``` 
 A esto se le llama una expresión de función.
 
+### _Hoisting_ o no _hoisting_
+
 Con estos antecedentes estamos listos para la siguiente regla: **las declaraciones de funciones son afectadas por _hoisting_, pero las expresiones de funciones no**.  
-Esto es análogo a lo que ya habíamos dicho para el caso de variables: las declaraciones de variables suben al inicio del scope, mientras que la asignación de valores no lo hacen.
+Esto es análogo a lo que ya habíamos analizado con la declaración y asignación de variables: las declaraciones suben al inicio del scope, mientras que la asignación de valores no lo hacen.
 
 De tal modo que podemos hacer esto:
 
 ```javascript
 foo(); // hola
 
-foo() {
+foo() { // Hoisting en la declaración
   console.log('hola');
 }
 ```
 
 Y por efecto del _hoisting_ la declaración subirá al inicio del _scope_.  
+
 Pero no funcionará igual de esta otra forma:
 
 ```javascript
 foo(); // TypeError: foo no es una función
 
-var foo = function() {
+var foo = function() { // No hay hoisting en las expresiones
   console.log('hola');
 }
 ```
 
 En el segundo código, en lugar de mostrar `hola`, lo que obtuvimos es un `TypeError`. Recordemos que este error indica que el identificador `foo` existe, pero no es una función.
-¿Por qué aquí no obtuvimos un `hola` como en el caso de la declaración? Porque la expresión de la función fue dividida por el compilador en: 
+¿Por qué aquí no obtuvimos un `hola` como en el caso de la declaración? Porque la expresión de la función fue dividida por el compilador en declaración y asignación: 
 
 ```javascript
 foo();
@@ -217,8 +228,8 @@ Para el compilador el equivalente del código anterior sería:
 function foo() {
   console.log('ho');
 }
-// var foo; // En realidad esta declaración es omitida
-// pues foo ya fue definido 
+// var foo; // Esta declaración es omitida,
+//pues foo ya fue definido 
 
 foo();
 
@@ -227,6 +238,46 @@ foo = function() {
 }
 ```
 
-La definición de la función `foo` sube primero al inicio del _scope_. Después vendría la declaración de `foo` como variable, pero como ese identificador ya existe, se puede omitir declararlo de nuevo. Cuando se invoca `foo()`, imprime el valor `'ho'`. Posteriormente se redefine a `foo` para imprimir `'hey'`, pero esa función ya no llega a invocarse de nuevo.
+La definición de la función `foo` sube primero al inicio del _scope_. Después vendría la declaración de `foo` como variable. Pero en Javascript, **si un identificador ya fue declarado, no se vuelve a redeclarar** (esto no significa que el identificador no pueda ser asignado con nuevos valores las veces que sea), entonces esta declaración desaparece. Cuando se invoca `foo()`, imprime el valor `'ho'`. Posteriormente se redefine a `foo` para imprimir `'hey'`, pero esa función ya no llega a invocarse de nuevo.
 
+## Conclusión
 
+Si les da vueltas la cabeza después de tantas relgas y preguntas capciosas, no hay que temer. Aquí el resumen de las reglas de _hoisting_:
+
+- Las declaraciones de variables y funciones siempre son movidas hacia el inicio del scope. A esto se llama _hoisting_.
+- El orden importa, las funciones toman prioridad sobre las variables. Si existe una declaración de una función y una declaración de una variable con el mismo nombre, la función es la que sube al inicio del scope y gana la definición.
+- Las asignaciones de valor hacia una variable, o bien las expresiones de funciones no sufren de _hoisting_, es decir, permanecen en su lugar correspondiente en el código.
+
+Tan simple como eso. Ahora, ¿podrán decir qué regresan estos códigos y por qué?
+
+```javascript
+function codigo1() {
+
+  function foo() {
+    return 'hola';
+  }
+
+  return foo();
+
+  function foo() {
+    return 'adios';
+  }
+}
+codigo1();
+```
+
+```javascript
+function codigo2() {
+
+  var foo = function() {
+    return 'hola';
+  }
+
+  return foo();
+  
+  var foo = function() {
+    return 'adios';
+  }
+}
+codigo2();
+```
