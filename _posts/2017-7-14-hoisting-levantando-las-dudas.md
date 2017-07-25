@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Hoisting. Levantando las dudas
-excerpt: Una más de las curiosidades del intérprete de JS. ¿Qué es hoisting? ¿Cómo afecta a las variables? ¿Qué reglas sigue?
+title: <em>Hoisting</em>. Levantando las dudas
+excerpt: Una más de las curiosidades del intérprete de JS. ¿Qué es <em>hoisting</em>? ¿Cómo afecta a las variables? ¿Qué reglas sigue?
 author: Leonardo Muñoz
 category: javascript
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Encontrando el sentido del scope
-excerpt: Si crees que el scope de Javascript no tiene sentido, debes leer esta breve introducción a cómo usarlo.
+title: Encontrando el sentido del <em>scope</em>
+excerpt: Si crees que el <em>scope</em> de Javascript no tiene sentido, debes leer esta breve introducción a cómo usarlo.
 author: Leonardo Muñoz
 category: javascript
 ---

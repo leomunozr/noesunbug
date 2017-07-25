@@ -1,7 +1,7 @@
 ---
 layout: post
-title: ES6&#58; let y const
-excerpt: Una revisión a las nuevas formas para crear variables y constantes. Además de sus similitudes y diferencian con <code>var</code>.
+title: ES6&#58; <em>let</em> y <em>const</em>
+excerpt: Una revisión a las nuevas formas para crear variables y constantes. Además de sus similitudes y diferencian con <em>var</em>.
 author: Leonardo Muñoz
 category: [javascript, es6]
 ---
